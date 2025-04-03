@@ -1,32 +1,32 @@
 import { Button } from "@/components/ui/button";
-import { GetPlaceDetails, PHOTO_REF_URL } from "@/service/GLobalApi";
+import { GetPlaceDetails, PHOTO_REF_URL } from "@/service/GlobalApi";
 import React, { useEffect, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 
-
 function InfoSection({ trip }) {
+  const [photoUrl, setPhotoUrl] = useState();
 
-  const [photoUrl,setPhotoUrl] = useState();
-  
-  useEffect(()=> {
-     trip&&GetPlacePhoto()
-  },[trip])
+  useEffect(() => {
+    trip && GetPlacePhoto();
+  }, [trip]);
 
-  const GetPlacePhoto = async() => {
+  const GetPlacePhoto = async () => {
     const data = {
-      textQuery:trip?.userSelection?.location?.label
-    }
-    const result = await GetPlaceDetails(data).then(resp=>{
-
-      const PhotoUrl = PHOTO_REF_URL.replace('{NAME}',resp.data.places[0].photos[3].name)
+      textQuery: trip?.userSelection?.location?.label,
+    };
+    const result = await GetPlaceDetails(data).then((resp) => {
+      const PhotoUrl = PHOTO_REF_URL.replace(
+        "{NAME}",
+        resp.data.places[0].photos[3].name
+      );
       setPhotoUrl(PhotoUrl);
-    })
-  }
+    });
+  };
 
   return (
     <div>
       <img
-        src={photoUrl? photoUrl : '/nature.jpg'}
+        src={photoUrl ? photoUrl : "/nature.jpg"}
         className="h-[350px] object-cover w-full rounded-xl"
       />
 
@@ -47,9 +47,10 @@ function InfoSection({ trip }) {
             </h2>
           </div>
         </div>
-      <Button><IoIosSend /></Button>  
+        <Button>
+          <IoIosSend />
+        </Button>
       </div>
-
     </div>
   );
 }
